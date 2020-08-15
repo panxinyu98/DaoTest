@@ -3,6 +3,7 @@ package com.neusoft.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return list;
 	}
-
+	@Override
 	// 根据ID查询
 	public Emp selectEmpById(int empno) {
 		Emp emp = null;
@@ -69,7 +70,7 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return emp;
 	}
-
+	@Override
 	// 添加
 	public int insertEmp(Emp emp) {
 		int result = 0;
@@ -90,7 +91,7 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return result;
 	}
-
+	@Override
 	// 更新
 	public int updateEmp(Emp emp) {
 		int result = 0;
@@ -109,7 +110,7 @@ public class EmpDaoImpl implements EmpDao {
 		}
 		return result;
 	}
-
+	@Override
 	// 删除
 	public int deleteEmpById(int empno) {
 		int result = 0;
@@ -120,6 +121,40 @@ public class EmpDaoImpl implements EmpDao {
 			pst.setInt(1, empno);
 			result = pst.executeUpdate();
 		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeAll(rs, pst, con);
+		}
+		return result;
+	}
+	@Override
+	public int zhuanzhang(int empno1,int empno2){
+		int result = 1;
+		String sql1 = "Update emp set sal= sal-500 where empno=?";
+		String sql2 = "Update emp set sal= sal+500 where empno=?";
+		try {
+			con = DBUtil.getConnection();
+			con.setAutoCommit(false);
+			
+			pst = con.prepareStatement(sql1);
+			pst.setInt(1, empno1);	
+			pst.executeUpdate();
+			
+			pst = con.prepareStatement(sql2);
+			pst.setInt(1, empno2);	
+			pst.executeUpdate();
+			
+			//提交一个事务
+			con.commit();
+			
+		} catch (Exception e) {
+			result=0;
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			DBUtil.closeAll(rs, pst, con);

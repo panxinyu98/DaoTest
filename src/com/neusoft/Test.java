@@ -23,13 +23,14 @@ public class Test {
 		}
 		*/
 		//根据Id查询
-		Emp emp = dao.selectEmpById(7369);
+		/*Emp emp = dao.selectEmpById(7369);
 		if(emp!=null) {
 			System.out.println(emp);
 		}else {
 			System.out.println("查无此人");
-		}
+		}*/
 		
+		//添加insert into 
 		/*
 		Emp emp = new Emp();
 		emp.setEname("习近平");
@@ -43,6 +44,8 @@ public class Test {
 			System.out.println("添加失败");
 		}
 		*/
+		
+		//更新update set
 		/*
 		Emp emp = new Emp();
 		emp.setEmpno(8001);
@@ -55,12 +58,26 @@ public class Test {
 			System.out.println("更新失败");
 		}
 		*/
-		int result = dao.deleteEmpById(8001);
+		
+		
+		//删除delete from
+		/*int result = dao.deleteEmpById(8001);
 		if(result>0) {
 			System.out.println("删除成功");
 		}else {
 			System.out.println("删除失败");
+		}*/
+		
+		//提交事务commit 
+		int result = dao.zhuanzhang(8, 9);
+		if(result>0) {
+			System.out.println("转账成功");
+		}else {
+			System.out.println("转账失败");
 		}
+		
+		
+		
 	
 		
 	}

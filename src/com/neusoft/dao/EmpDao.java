@@ -11,4 +11,6 @@ public interface EmpDao {
 	public int insertEmp(Emp emp);
 	public int updateEmp(Emp emp);
 	public int deleteEmpById(int empno);
+	//ÑİÊ¾ÊÂÎñ
+	public int zhuanzhang(int empno1,int empno2);
 }
