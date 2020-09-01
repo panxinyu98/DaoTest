@@ -24,6 +24,7 @@ public class EmpDaoImpl implements EmpDao {
 		List<Emp> list = new ArrayList<>();
 		String sql = "select * from emp order by empno";
 		try {
+		
 			con = DBUtil.getConnection();
 			pst = con.prepareStatement(sql);
 			rs = pst.executeQuery();
@@ -134,6 +135,9 @@ public class EmpDaoImpl implements EmpDao {
 		String sql2 = "Update emp set sal= sal+500 where empno=?";
 		try {
 			con = DBUtil.getConnection();
+			//在mysql，默认自动提交；那么，如果需要自己管理事务，就不能自动提交。
+
+			//1、设置不自动提交（开启一个事务）
 			con.setAutoCommit(false);
 			
 			pst = con.prepareStatement(sql1);
@@ -144,12 +148,13 @@ public class EmpDaoImpl implements EmpDao {
 			pst.setInt(1, empno2);	
 			pst.executeUpdate();
 			
-			//提交一个事务
+			//2、提交一个事务
 			con.commit();
 			
 		} catch (Exception e) {
 			result=0;
 			try {
+				//3、回滚一个事务
 				con.rollback();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
